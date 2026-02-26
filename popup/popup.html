@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="popup.css" />
+  <title>CalmQuit</title>
+</head>
+<body>
+  <div class="container">
+    <h1>CalmQuit</h1>
+    <p class="subtitle">Take control of your chess sessions</p>
+
+    <div class="setting">
+      <label for="gameLimit">Close browser after</label>
+      <div class="input-row">
+        <button id="decrement" class="btn-adjust" aria-label="Decrease">−</button>
+        <input type="number" id="gameLimit" min="1" max="99" value="3" />
+        <button id="increment" class="btn-adjust" aria-label="Increase">+</button>
+        <span class="unit">games</span>
+      </div>
+    </div>
+
+    <div class="toggle-row">
+      <label for="enabled">Enabled</label>
+      <label class="switch">
+        <input type="checkbox" id="enabled" checked />
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="progress-section">
+      <div class="progress-label">
+        <span>Games played this session</span>
+        <span id="gameCount">0 / 3</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+      </div>
+    </div>
+
+    <button id="resetBtn" class="btn-reset">Reset Counter</button>
+
+    <div class="warning-section" id="warningSection" style="display: none;">
+      <p id="warningText"></p>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

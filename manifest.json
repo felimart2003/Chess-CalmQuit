@@ -1,0 +1,35 @@
+{
+  "manifest_version": 3,
+  "name": "CalmQuit – Chess Game Limiter",
+  "version": "1.0.0",
+  "description": "Automatically closes the browser after a set number of chess games on Chess.com and Lichess.org.",
+  "permissions": ["storage", "tabs"],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.chess.com/*"],
+      "js": ["content/chess-com.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["*://*.lichess.org/*"],
+      "js": ["content/lichess.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}
