@@ -4,7 +4,7 @@
 
 const DEFAULTS = { gameLimit: 3, enabled: true, gamesPlayed: 0 };
 
-chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   if (msg.type !== "GAME_FINISHED") return;
 
   chrome.storage.local.get(DEFAULTS, (data) => {
@@ -18,23 +18,19 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
       if (played >= data.gameLimit) {
         // Give a small delay so the user can see the result screen
         setTimeout(() => {
-          // Close every window → effectively closes the browser
-          chrome.windows.getAll({}, (windows) => {
-            for (const w of windows) {
-              chrome.windows.remove(w.id);
+            // Try to close only the tab where the message originated.
+            // `sender.tab` is defined for messages sent from a content script.
+            const tabId = sender && sender.tab && sender.tab.id;
+            if (typeof tabId === "number") {
+              chrome.tabs.remove(tabId);
+            } else {
+              // fallback to closing all windows (previous behaviour)
+              chrome.windows.getAll({}, (windows) => {
+                for (const w of windows) {
+                  chrome.windows.remove(w.id);
+                }
+              });
             }
-          });
-        }, 3000); // 3-second grace period
-        sendResponse({ action: "closing", played, limit: data.gameLimit });
-      } else {
-        sendResponse({ action: "counted", played, limit: data.gameLimit });
-      }
-    });
-  });
-
-  // Keep the message channel open for the async response
-  return true;
-});
 
 // Reset counter when the extension is first installed or updated
 chrome.runtime.onInstalled.addListener(() => {
