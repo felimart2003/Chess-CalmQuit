@@ -81,3 +81,8 @@ Defined in `manifest.json`:
 - This extension is designed for Chromium-based browsers that support Manifest V3.
 - Because game sites are dynamic SPAs, detection relies on DOM changes and URL monitoring.
 - If a site updates its markup, selectors may need adjustment in content scripts.
+
+## Privacy
+
+CalmQuit does not collect, store, or share any user data. All functionality runs locally
+in the browser and only the game‑limit setting is saved via chrome.storage.
